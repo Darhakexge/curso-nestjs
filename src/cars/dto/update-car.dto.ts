@@ -3,14 +3,14 @@ import { IsString, IsUUID, MinLength, IsOptional } from 'class-validator';
 export default class UpdateCarDto {
     @IsUUID()
     @IsOptional()
-    readonly id: string;
+    readonly id?: string;
 
     @IsString()
     @IsOptional()
-    readonly brand: string;
+    readonly brand?: string;
 
     @IsString()
     @MinLength(3)
     @IsOptional()
-    readonly model: string;
+    readonly model?: string;
 }

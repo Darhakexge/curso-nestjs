@@ -3,6 +3,7 @@ import {
     Controller,
     Delete,
     Get,
+    HttpCode,
     Param,
     ParseUUIDPipe,
     Patch,
@@ -11,7 +12,6 @@ import {
 import { CarsService } from './cars.service';
 import CreateCarDto from './dto/create-car.dto';
 import UpdateCarDto from './dto/update-car.dto';
-import Car from './interfaces/car.interface';
 
 @Controller('cars')
 export class CarsController {
@@ -41,9 +41,8 @@ export class CarsController {
     }
 
     @Delete(':id')
+    @HttpCode(204)
     delete(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-        return {
-            id,
-        };
+        return this.carsService.delete(id);
     }
 }
