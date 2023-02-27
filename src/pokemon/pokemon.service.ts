@@ -2,9 +2,10 @@ import {
     BadRequestException,
     Injectable,
     InternalServerErrorException,
+    NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entities/pokemon.entity';
@@ -17,7 +18,7 @@ export class PokemonService {
         this.pokemonModel = pokemonModel;
     }
 
-    async create(createPokemonDto: CreatePokemonDto) /* : Promise<Pokemon> */ {
+    async create(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
         try {
             const pokemon = await this.pokemonModel.create(createPokemonDto);
 
@@ -38,15 +39,44 @@ export class PokemonService {
         return `This action returns all pokemon`;
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} pokemon`;
+    async findOne(term: string): Promise<Pokemon> {
+        let pokemon: Pokemon | null = null;
+
+        if (!isNaN(+term)) {
+            pokemon = await this.pokemonModel.findOne({
+                nationalNumber: term,
+            });
+        }
+
+        if (!pokemon && isValidObjectId(term)) {
+            pokemon = await this.pokemonModel.findById(term);
+        }
+
+        if (!pokemon) {
+            pokemon = await this.pokemonModel.findOne({ name: term });
+        }
+
+        if (!pokemon) {
+            throw new NotFoundException('The Pokémon do not exists');
+        }
+
+        return pokemon;
     }
 
-    update(id: number, updatePokemonDto: UpdatePokemonDto) {
-        return `This action updates a #${id} pokemon`;
+    async update(
+        term: string,
+        updatePokemonDto: UpdatePokemonDto,
+    ) /* : Promise<Pokemon> */ {
+        const pokemon = await this.findOne(term);
+
+        if (updatePokemonDto.name) {
+            updatePokemonDto.name = updatePokemonDto.name.toLocaleLowerCase();
+        }
+
+        return { ...pokemon.toJSON(), ...updatePokemonDto };
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} pokemon`;
+    async remove(id: string): Promise<null> {
+        return await this.pokemonModel.findByIdAndDelete(id);
     }
 }
