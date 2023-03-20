@@ -15,5 +15,6 @@ import { PokemonService } from './pokemon.service';
             },
         ]),
     ],
+    exports: [PokemonService],
 })
 export class PokemonModule {}

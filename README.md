@@ -27,3 +27,9 @@ docker-compose up -d
 
 -   MongoDB
 -   Nest
+
+5. Ejecutar los seeds
+
+```shell
+localhost:3000/seed
+```
