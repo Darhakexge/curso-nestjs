@@ -23,13 +23,19 @@ npm i -g @nestjs/cli
 docker-compose up -d
 ```
 
-## Stack usado
+5. Configurar las variables de entorno
 
--   MongoDB
--   Nest
+```shell
+cp .env.example .env
+```
 
 5. Ejecutar los seeds
 
 ```shell
 localhost:3000/seed
 ```
+
+## Stack usado
+
+-   MongoDB
+-   Nest
