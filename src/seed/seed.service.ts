@@ -4,8 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { AxiosError } from 'axios';
 import { Model } from 'mongoose';
 import { catchError, firstValueFrom } from 'rxjs';
-import { CreatePokemonDto } from 'src/pokemon/dto/create-pokemon.dto';
-import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
+import { CreatePokemonDto } from '../pokemon/dto/create-pokemon.dto';
+import { Pokemon } from '../pokemon/entities/pokemon.entity';
 import { PokeapiResponse } from './interfaces/PokeapiResponse';
 
 @Injectable()
