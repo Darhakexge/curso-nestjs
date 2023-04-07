@@ -8,6 +8,8 @@ import { join } from 'path';
 import { CommonModule } from './common/common.module';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { SeedModule } from './seed/seed.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
     imports: [
@@ -26,5 +28,7 @@ import { SeedModule } from './seed/seed.module';
         CommonModule,
         SeedModule,
     ],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {}
