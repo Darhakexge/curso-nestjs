@@ -39,3 +39,17 @@ localhost:3000/seed
 
 -   MongoDB
 -   Nest
+
+## Despliegue en producción
+
+1. Configurar las variables de entorno
+
+```shell
+cp .env.example .env
+```
+
+2. Crear la imagen de Docker
+
+```sh
+docker-compose -f docker-compose.prod.yaml up --build -d
+```
